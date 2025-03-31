@@ -28,9 +28,9 @@ type Phrases struct {
 
 // ReponseMessage send Response in Format JSON
 type ReponseMessage struct {
-	Status  int         `json:"status,omitempty"`
-	Message string      `json:"message,omitempty"`
-	Data    interface{} `json:"data,omitempty"`
+	Status  int    `json:"status,omitempty"`
+	Message string `json:"message,omitempty"`
+	Data    any    `json:"data,omitempty"`
 }
 
 func main() {
@@ -44,9 +44,9 @@ func main() {
 		port = "3000"
 	}
 	mux := http.NewServeMux()
-	mux.HandleFunc("/phrase", AddingCors(phraseOfTheDay(c, phrases)))
+	mux.HandleFunc("/phrase", phraseOfTheDay(c, phrases))
 	log.Println("server run to port:", port)
-	http.ListenAndServe(":"+port, mux)
+	http.ListenAndServe(":"+port, AddingCors(mux))
 }
 
 // AddingCors is middleware that set access origin
